@@ -1,0 +1,102 @@
+﻿@model GRFMWebConsole.Domain.QuotationItem
+
+<style>
+    .modal-backdrop {
+        z-index: 98 !important;
+    }
+
+    .modal {
+        z-index: 999999 !important;
+    }
+</style>
+
+<div class="card">
+    <div class="card-body">
+        <div class="modal fade" id="modal-quotation-item" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        @if (Model.Id > 0)
+                        {
+                            <h5 class="modal-title fs-5" id="QuotationItemModalLabel">Edit Item</h5>
+                        }
+                        else
+                        {
+                            <h5 class="modal-title fs-5" id="QuotationItemModalLabel">Add Item</h5>
+                        }
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    </div>
+                    @Html.HiddenFor(m => m.Id)
+                    @Html.HiddenFor(m => m.QuotationRoomId)
+                    <div class="modal-body">
+                        <div class="row mb-2">
+                            <div class="col">
+                                <label>Item Name <span class="text-danger">*</span></label>
+                                @Html.TextBoxFor(m => m.ItemName, new { @class = "form-control", placeholder = "Enter Item Name" })
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-sm-12 col-md-6 col-lg-6">
+                                <label>Quantity <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    @Html.TextBoxFor(m => m.Quantity, new { @class = "form-control qty-error", placeholder = "Enter Quantity" })
+                                    <div class="input-group-append">
+                                        @Html.DropDownListFor(m => m.UnitOfMeasureId, ViewBag.UnitMeasures as List<SelectListItem>, "Unit", new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <span class="text-danger" id="spnQty"></span>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-6">
+                                <label>MRP / RRP <span class="text-danger">*</span></label>
+                                @Html.TextBoxFor(m => m.MRP, new { @class = "form-control", placeholder = "Enter MRP or RRP" })
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row mb-2">
+                            <div class="col-sm-12 col-md-6 col-lg-6">
+                                <label>Net Rate <span class="text-danger">*</span></label>
+                                @Html.TextBoxFor(m => m.Net, new { @class = "form-control", placeholder = "Enter Net Rate" })
+                                <span class="text-danger"></span>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-6">
+                                <label>Final Rate </label>
+                                @Html.TextBoxFor(m => m.FinalRate, new { @class = "form-control item-rate", placeholder = "Enter Final Rate", id = "ItemFinalRate" })
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row mb-2">
+                            <div class="col">
+                                <label>Discount (in %)</label>
+                                @Html.TextBoxFor(m => m.Discount, new { @class = "form-control", placeholder = "Enter Discount", id = "ItemDiscount" })
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row mb-2">
+                            <div class="col">
+                                <label>Amount <span class="text-danger">*</span></label>
+                                @Html.TextBoxFor(m => m.Amount, new { @class = "form-control", placeholder = "Enter Amount", @readonly = "readonly", id = "ItemTotalAmount" })
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <a href="javascript:void(0)" class="btn btn-secondary" data-dismiss="modal">Close</a>
+                        <a href="javascript:void(0)" class="btn btn-primary btn-submit">Save</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Hidden("NotificationType", (object)ViewBag.NotificationType)
+@Html.Hidden("NotificationMsg", (object)ViewBag.NotificationMsg)
+
+
+<script src="@Url.Content("~/custom-js/quotation/create-item.js")"></script>
+@*<script>$('.modal-backdrop').remove();</script>*@

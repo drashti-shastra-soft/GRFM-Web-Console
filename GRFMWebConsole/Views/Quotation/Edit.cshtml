@@ -1,0 +1,370 @@
+﻿@model GRFMWebConsole.Domain.Quotation
+@{
+    ViewBag.Title = "Quotation";
+}
+
+
+<style>
+    :root {
+        --card-bg: #ffffff;
+        --muted: #6c757d;
+        --accent: #0d6efd;
+    }
+
+    .room {
+        background: var(--card-bg);
+        border: 1px solid #e3e6ea;
+        border-radius: 8px;
+        padding: 14px;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+    }
+
+    .window {
+        background: #fbfbfc;
+        border: 1px dashed #e6e9ee;
+        padding: 10px;
+        border-radius: 6px;
+        margin-top: 10px;
+    }
+
+    .labourResult table {
+        font-size: 0.92rem;
+    }
+
+    .accessory-list .form-check {
+        display: inline-block;
+        margin-right: 10px;
+    }
+
+    .room-subtotal {
+        font-weight: 600;
+        color: #0b5ed7;
+    }
+
+    .small-muted {
+        font-size: 0.85rem;
+        color: var(--muted);
+    }
+
+    .btn-compact {
+        padding: 4px 8px;
+        font-size: 0.85rem;
+    }
+
+    .table-sm td, .table-sm th {
+        padding: 6px;
+    }
+
+    .totals-box {
+        background: #fff;
+        border: 1px solid #e3e6ea;
+        padding: 12px;
+        border-radius: 8px;
+    }
+
+    .note {
+        font-size: 0.85rem;
+        color: var(--muted);
+        margin-top: 6px;
+    }
+
+    .client-box, .property-box {
+        border: 1px solid #dfdfdf; /* border around section */
+        border-radius: 6px; /* rounded corners */
+        padding: 20px; /* spacing inside */
+    }
+
+    .section-title {
+        font-weight: bold;
+        margin-bottom: 15px;
+        color: #333;
+        border-bottom: 1px solid #ddd; /* underline separator */
+        padding-bottom: 5px;
+    }
+</style>
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Dashboard")">Home</a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Quotation")">Quotation</a></li>
+                        <li class="breadcrumb-item active">Create Quotation</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <!-- Default box -->
+        <div class="card">
+            <div class="card-body">
+                <h5>Client Details</h5>
+                <!-- Client Info -->
+                <div class="client-box mb-4">
+                    @Html.HiddenFor(m => m.Id)
+                    @Html.HiddenFor(m => m.ClientId)
+                    @Html.HiddenFor(m => m.PropertyId)
+                    <div class="form-row mb-2">
+                        <div class="col">
+                            <label>Name <span class="text-danger">*</span></label>
+                            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "Enter Name" })
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="col">
+                            <label>Phone Number <span class="text-danger">*</span></label>
+                            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", placeholder = "Enter Phone Number" })
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <h5>Property Details</h5>
+                <div class="property-box mb-4">
+                    <div class="row mb-2 ">
+                        <div class="col">
+                            <label>Property Number <span class="text-danger">*</span></label>
+                            @Html.TextBoxFor(m => m.PropertyNumber, new { @class = "form-control", placeholder = "Enter Property Number" })
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="col">
+                            <label>Society Name <span class="text-danger">*</span></label>
+                            @Html.TextBoxFor(m => m.SocietyName, new { @class = "form-control", placeholder = "Enter Society Name" })
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col">
+                            <label>Landmark <span class="text-danger">*</span></label>
+                            @Html.TextBoxFor(m => m.LandMark, new { @class = "form-control", placeholder = "Enter Landmark" })
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="col">
+                            <label>Area <span class="text-danger">*</span></label>
+                            @Html.TextBoxFor(m => m.Area, new { @class = "form-control", placeholder = "Enter Area" })
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col">
+                            <label>City <span class="text-danger">*</span></label>
+                            @Html.TextBoxFor(m => m.City, new { @class = "form-control", placeholder = "Enter City" })
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="col">
+                            <label>State <span class="text-danger">*</span></label>
+                            @Html.TextBoxFor(m => m.State, new { @class = "form-control", placeholder = "Enter State" })
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <div class="col">
+                        <label>Effective Date</label>
+                        @Html.TextBoxFor(m => m.EffectiveDate, new { @class = "form-control", type = "date", @Value = DateTime.Now.ToString("yyyy-MM-dd") })
+                        <span class="text-danger"></span>
+                    </div>
+                    <div class="col">
+                        <label>Expiry Date</label>
+                        @Html.TextBoxFor(m => m.ExpiryDate, new { @class = "form-control", type = "date", @Value = DateTime.Now.ToString("yyyy-MM-dd") })
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+
+                <!-- Rooms -->
+                <div class="d-flex justify-content-end align-items-center mb-2">
+                    <div>
+                        <a href="javascript:void(0)" class="btn btn-info btn-sm add-room">+ Add Room</a>
+                        <a href="javascript:void(0)" class="btn btn-outline-danger btn-sm clear-rooms">Clear Rooms</a>
+                    </div>
+                </div>
+
+                <div id="roomContainer" class="mb-4"></div>
+
+                <!-- Totals -->
+                <div class="row mt-3">
+                    <div class="col-sm-12">
+                        <div class="totals-box mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div><strong>Grand Total (Fabric)</strong></div>
+                                <div>
+                                    @Html.TextBoxFor(m => m.FabricGrandTotal, new { @class = "form-control", @readonly = "readonly" })
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div><strong>Grand Total (Labour)</strong></div>
+                                <div>
+                                    @Html.TextBoxFor(m => m.LabourGrandTotal, new { @class = "form-control", @readonly = "readonly" })
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div><strong>Grand Total </strong></div>
+                                <div>
+                                    @Html.TextBoxFor(m => m.GrandTotal, new { @class = "form-control", @readonly = "readonly" })
+
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div><strong>Discount</strong></div>
+                                <div>
+                                    @Html.TextBoxFor(m => m.Discount, new { @class = "form-control", @id = "FinalDiscount" })
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div><strong>Transport Charges</strong></div>
+                                <div>
+                                    @Html.TextBoxFor(m => m.TransportCharges, new { @class = "form-control", placeholder = "Enter Transport Charges" })
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div><strong>Amount</strong></div>
+                                <div>
+                                    @Html.TextBoxFor(m => m.Amount, new { @class = "form-control", @readonly = "readonly", @id = "FinalAmount" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-3">
+                    <a href="Javascript:void(0);" id="saveQuotation" class="btn btn-primary float-right btn-save">Save</a>
+                </div>
+            </div>
+        </div>
+        <div id="divCreateItem"></div>
+        <div id="divCreateLabour"></div>
+    </section>
+</div>
+
+<!-- /.content -->
+<script src="@Url.Content("~/custom-js/quotation/edit.js")"></script>
+<script>
+    $(document).ready(function () {
+
+        var quotation = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model));
+
+        $("#roomContainer").empty();
+        $.each(quotation.QuotationRooms, function (roomIndex, room) {
+            // Build room block with both tables
+            var roomHtml = `
+                            <div class="room mb-3" data-room-id="${room.Id}">
+                                <div class="room-header row mb-2">
+                                    <div class="col-6">
+                                        <input type="text" class="form-control room-item-name"
+                                               value="${room.RoomName}"
+                                               placeholder="Room name (e.g., Hall, Master Bed)" data-id="${room.Id}">
+                                    </div>
+                                    <div class="col-6">
+                                        <a href="javascript:void(0)" class="btn btn-sm btn-danger btn-compact ms-2 remove-room float-right ml-1">Remove</a>
+                                        <a href="javascript:void(0)" class="btn btn-sm btn-outline-secondary btn-compact add-labour float-right ml-1">+ Add Labour</a>
+                                        <a href="javascript:void(0)" class="btn btn-sm btn-outline-primary btn-compact add-item float-right">+ Add Item</a>
+                                    </div>
+                                </div>
+
+                                <!-- Fabric subtotal + table -->
+                                <div class="me-3 small-muted room-subtotal-item">
+                                    Fabric: ₹ ${room.QuotationItems.reduce((sum, i) => sum + i.Amount, 0).toFixed(2)}
+                                </div>
+                                <div class="windows">
+                                    <div class="table-responsive mt-3">
+                                        <table class="table table-bordered table-sm item-table">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th class="text-center">Item Name</th>
+                                                    <th class="text-center">Quantity</th>
+                                                    <th class="text-center">MRP/RRP</th>
+                                                    <th class="text-center">Net Rate</th>
+                                                    <th class="text-center">Final Rate</th>
+                                                    <th class="text-center">Discount</th>
+                                                    <th class="text-center">Amount</th>
+                                                    <th class="text-center" hidden>UnitOfMeasureId</th>
+                                                    <th class="text-center" hidden>Id</th>
+                                                    <th class="text-center" hidden>QuotationRoomId</th>
+                                                    <th class="text-center" colspan="2">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="room-${room.Id}-items">
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <!-- Labour subtotal + table -->
+                                <div class="me-3 small-muted room-subtotal-labour">
+                                    Labour: ₹ ${room.QuotationLabours.reduce((sum, l) => sum + l.Amount, 0).toFixed(2)}
+                                </div>
+                                <div class="windows">
+                                    <div class="table-responsive mt-3">
+                                        <table class="table table-bordered table-sm labour-table">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th class="text-center">Description</th>
+                                                    <th class="text-center">Quantity</th>
+                                                    <th class="text-center">Final Rate</th>
+                                                    <th class="text-center">Amount</th>
+                                                    <th class="text-center" hidden>UnitOfMeasureId</th>
+                                                    <th class="text-center" hidden>Id</th>
+                                                    <th class="text-center" hidden>QuotationRoomId</th>
+                                                    <th class="text-center" colspan="2">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="room-${room.Id}-labours">
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+            `;
+
+
+            $("#roomContainer").append(roomHtml);
+            // Populate items
+            $.each(room.QuotationItems || [], function (itemIndex, item) {
+                var itemRow = `
+                    <tr>
+                        <td>${item.ItemName}</td>
+                        <td>${item.Quantity} ${item.UnitOfMeasure}</td>
+                        <td class="text-right">₹ ${item.MRP.toFixed(2)}</td>
+                        <td class="text-right">₹ ${item.Net.toFixed(2)}</td>
+                        <td class="text-right">₹ ${item.FinalRate.toFixed(2)}</td>
+                        <td class="text-right">${item.Discount.toFixed(2)} %</td>
+                        <td class="amount text-right">₹ ${item.Amount.toFixed(2)}</td>
+                        <td hidden>${item.UnitOfMeasureId}</td>
+                        <td hidden>${item.Id}</td>
+                        <td hidden>${item.QuotationRoomId}</td>
+                        <td class="text-center"><a href="#" class="text-info edit-item" data-id="${item.Id}"><i class="fas fa-edit"></i></a></td>
+                        <td class="text-center"><a href="#" class="text-danger delete-item" data-id="${item.Id}"><i class="fas fa-trash"></i></a></td>
+                    </tr>`;
+                $(`#room-${room.Id}-items`).append(itemRow);
+            });
+            // Populate labours
+            $.each(room.QuotationLabours || [], function (labourIndex, labour) {
+                var labourRow = `
+                    <tr>
+                        <td>${labour.Description}</td>
+                        <td class="text-left">${labour.Quantity} ${labour.UnitOfMeasure}</td>
+                        <td class="text-right">₹ ${labour.FinalRate.toFixed(2)}</td>
+                        <td class="amount text-right">₹ ${labour.Amount.toFixed(2)}</td>
+                        <td hidden>₹ ${labour.UnitOfMeasureId}</td>
+                        <td hidden>₹ ${labour.Id}</td>
+                        <td hidden>₹ ${labour.QuotationRoomId}</td>
+                        <td class="text-center"><a href="#" class="text-info edit-labour" data-id="${labour.Id}"><i class="fas fa-edit"></i></a></td>
+                        <td class="text-center"><a href="#" class="text-danger delete-labour" data-id="${labour.Id}"><i class="fas fa-trash"></i></a></td>
+                    </tr>`;
+                $(`#room-${room.Id}-labours`).append(labourRow);
+            });
+        });
+
+        CalculateTotal();
+});
+</script>

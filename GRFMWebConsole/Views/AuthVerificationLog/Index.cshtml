@@ -1,0 +1,155 @@
+﻿
+@model GRFMWebConsole.Domain.AuthVerificationLog
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>OTP Verification</title>
+
+    <link rel="stylesheet" href="@Url.Content("~/Content/pluggins/fontawesome/all.min.css")">
+
+    <!-- Toastr -->
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/plugins/toastr/toastr.min.css")">
+
+    <!-- Theme style -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/dist/adminlte.min.css")">
+
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/pluggins/icheck-bootstrap/icheck-bootstrap.min.css")">
+
+    <!-- style css -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/style.css")">
+
+    <style>
+        .submit {
+            display: flex;
+            justify-content: end;
+        }
+
+        .form-check-input {
+            margin-left: -23px;
+            margin-top: 6px;
+        }
+
+
+        _[class*=icheck-] > label {
+            padding-left: 23px !important;
+            min-height: 22px;
+            line-height: 22px;
+            display: inline-block;
+            position: relative;
+            vertical-align: top;
+            margin-bottom: 0;
+            font-weight: 400;
+            cursor: pointer;
+        }
+
+        .login-card-body, .register-card-body {
+            padding: 9px;
+        }
+
+        .custom-loader {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgb(0 0 0 / 50%);
+            height: 100%;
+            width: 100%;
+            z-index: 99999;
+            display: none;
+        }
+
+            .custom-loader .loader {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 100%;
+                width: 100%;
+            }
+    </style>
+</head>
+
+<body class="login-page bg-body-secondary externalBody">
+    <div class="login-box">
+        <div class="card card-outline card-primary">
+            <div class="card-header text-center">
+                <a href="javascript:void(0);" class="h1"><b>GRFM</b></a>
+            </div>
+            <div class="card-body login-card-body">
+                <p class="login-box-msg">OTP has been sent to your Super Admins. Please ask them for OTP</p>
+                @using (Html.BeginForm("Index", "AuthVerificationLog", FormMethod.Post, new { id = "frmLogin" }))
+                {
+                    @Html.HiddenFor(m => m.UserId)
+                    <div class="LoginFormSection">
+                        <div class="input-group mb-3">
+                            @Html.TextBoxFor(m => m.OTP, new { @class = "form-control", placeholder = "OTP", maxlength = "6", pattern = "\\d{6}", inputmode = "numeric" })
+                            <span class="text-danger d-none"></span>
+                            <div class="input-group-text"><span class="fas fa-lock"></span></div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col">
+                                <a href="javascript:void(0);" class="btn btn-primary btn-submit float-right">Verify</a>
+                                <p class="mb-1"><a href="javascript:void(0);" class="btn-resent-otp float-left text-info">Resend OTP</a></p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <script>
+        const inputs = document.querySelectorAll(".otp-input input");
+
+        inputs.forEach((input, index) => {
+            input.addEventListener("input", () => {
+                if (input.value.length === 1 && index < inputs.length - 1) {
+                    inputs[index + 1].focus();
+                }
+            });
+
+            input.addEventListener("keydown", (e) => {
+                if (e.key === "Backspace" && !input.value && index > 0) {
+                    inputs[index - 1].focus();
+                }
+            });
+        });
+    </script>
+
+    <!-- jQuery -->
+    <script src="@Url.Content("~/Scripts/plugins/jquery/jquery.min.js")"></script>
+
+    <!-- Bootstrap -->
+    <script src="@Url.Content("~/Scripts/plugins/bootstrap/bootstrap.bundle.min.js")"></script>
+
+    <!-- AdminLTE -->
+    <script src="@Url.Content("~/Scripts/dist/js/adminlte.min.js")"></script>
+
+    <!-- Toastr -->
+    <script src="@Url.Content("~/Scripts/plugins/toastr/toastr.min.js")"></script>
+
+    <!-- Custom Notification -->
+    <script src="@Url.Content("~/custom-js/layout/custom-notification.js")"></script>
+
+    <!-- Custom Document Event -->
+    <script src="@Url.Content("~/custom-js/layout/custom-document-event.js")"></script>
+
+    <!-- Page JS -->
+    <script src="@Url.Content("~/custom-js/authVerificationLog/index.js")"></script>
+
+    @Html.Hidden("NotificationType", (object)ViewBag.NotificationType)
+    @Html.Hidden("NotificationMsg", (object)ViewBag.NotificationMsg)
+    <div id="loading-element" class="custom-loader">
+        <div class="loader">
+            <img src="@Url.Content("~/Content/assets/img/Admin/Loading.gif")" style="height:100px;" />
+        </div>
+    </div>
+
+</body>
+</html>

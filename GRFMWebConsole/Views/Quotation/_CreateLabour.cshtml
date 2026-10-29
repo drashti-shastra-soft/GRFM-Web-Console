@@ -1,0 +1,67 @@
+﻿@model GRFMWebConsole.Domain.QuotationLabour
+
+<style>
+    .modal-backdrop {
+        z-index: 98 !important;
+    }
+
+    .modal {
+        z-index: 999999 !important;
+    }
+</style>
+
+
+<div class="card">
+    <div class="card-body">
+        <div class="modal fade" id="modal-labour-item" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title fs-5" id="LabourModalLabel">Add Labour</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row mb-2">
+                            <div class="col-sm-12 col-md-6 col-lg-6">
+                                <label>Description <span class="text-danger">*</span></label>
+                                @Html.TextBoxFor(m => m.Description, new { @class = "form-control", placeholder = "Enter Description", id = "Description" })
+                                <span class="text-danger"></span>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-6">
+                                <label>Quantity <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    @Html.TextBoxFor(m => m.Quantity, new { @class = "form-control qty-error Quantity", placeholder = "Enter Quantity", @id = "LabourQuantity" })
+                                    <div class="input-group-append">
+                                        @Html.DropDownListFor(m => m.UnitOfMeasureId, ViewBag.UnitMeasures as List<SelectListItem>, "Unit", new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <span class="text-danger"></span>
+                                <span class="text-danger qty-error"></span>
+                                <span class="text-danger unit-error"></span>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-sm-12 col-md-6 col-lg-6">
+                                <label>Final Rate <span class="text-danger">*</span></label>
+                                @Html.TextBoxFor(m => m.FinalRate, new { @class = "form-control", placeholder = "Enter Final Rate", id = "LabourFinalRate" })
+                                <span class="text-danger"></span>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-6">
+                                <label>Amount <span class="text-danger">*</span></label>
+                                @Html.TextBoxFor(m => m.Amount, new { @class = "form-control", placeholder = "Enter Amount", @readonly = "readonly", id = "LabourTotal" })
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <a href="javascript:void(0)" class="btn btn-secondary" data-dismiss="modal">Close</a>
+                        <a href="javascript:void(0)" class="btn btn-primary btn-submit">Save</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="@Url.Content("~/custom-js/quotation/create-labour.js")"></script>

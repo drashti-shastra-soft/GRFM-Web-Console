@@ -1,0 +1,55 @@
+﻿@model GRFMWebConsole.Domain.QuotationPDFTitle
+
+
+<div class="card">
+    <div class="card-body">
+        <div class="modal fade" id="modal-quotation-PDF-Title" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        @if (Model.Id > 0)
+                        {
+                            <h5 class="modal-title fs-5" id="QuotationItemModalLabel">Edit Quotation Excel Title</h5>
+                        }
+                        else
+                        {
+                    <h5 class="modal-title fs-5" id="QuotationItemModalLabel">Add Quotation Excel Title</h5>
+                        }
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row mb-2">
+
+                            @if (Model.FabricGrandTotal > 0)
+                            {
+                                <div class="col-md-6">
+                                    <label>Fabric Excel Title</label>
+                                    @Html.TextBoxFor(m => m.FabricPDFTitle,new { @class = "form-control", placeholder = "Enter Fabric PDF Title" })
+                                </div>
+                            }
+
+                            @if (Model.LabourGrandTotal > 0)
+                            {
+                                <div class="col-md-6">
+                                    <label>Labour Excel Title</label>
+                                    @Html.TextBoxFor(m => m.LabourPDFTitle,new { @class = "form-control", placeholder = "Enter Labour PDF Title" })
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <a href="javascript:void(0)" class="btn btn-secondary" data-dismiss="modal">Close</a>
+                        <a href="javascript:void(0)" class="btn btn-primary btn-submit" data-id="@Model.Id", data-quotation-id="@Model.QuotationId">Save</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Hidden("NotificationType", (object)ViewBag.NotificationType)
+@Html.Hidden("NotificationMsg", (object)ViewBag.NotificationMsg)
+
+
+<script src="@Url.Content("~/custom-js/quotation-pdf-title/create.js")"></script>
